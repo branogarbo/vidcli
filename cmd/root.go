@@ -16,22 +16,26 @@ limitations under the License.
 package cmd
 
 import (
+	"fmt"
+	"os"
+
+	"github.com/branogarbo/vidcli/util"
 	"github.com/spf13/cobra"
 )
 
-// var (
-// 	frameWidth      int
-// 	frameHeight     int
-// 	frameCount      int
-// 	patternX        int
-// 	patternY        int
-// 	patternFilePath string
-// 	buildFilePath   string
-// 	frameInterval   int
-// 	livingCellChar  string
-// 	deadCellChar    string
-// 	err             error
-// )
+var (
+	// 	frameWidth      int
+	// 	frameHeight     int
+	// 	frameCount      int
+	// 	patternX        int
+	// 	patternY        int
+	// 	patternFilePath string
+	// 	buildFilePath   string
+	// 	frameInterval   int
+	// 	livingCellChar  string
+	// 	deadCellChar    string
+	err error
+)
 
 var rootCmd = &cobra.Command{
 	Use: "golcli",
@@ -70,6 +74,12 @@ var rootCmd = &cobra.Command{
 		// }
 
 		// u.BruteRunGame(gc)
+
+		err = util.GetFramesFromVid("./vid.mp4")
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
 	},
 }
 
