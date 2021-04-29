@@ -14,3 +14,29 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 package util
+
+type Frames []Frame
+
+type Frame struct {
+	Num   int
+	Chars string
+}
+
+type BuildData struct {
+	BuildConfig
+	Frames
+}
+
+type BuildConfig struct {
+	Src          string
+	Dst          string
+	Fps          int
+	IsYoutube    bool
+	OutputMode   string
+	AsciiPattern string
+	OutputWidth  int
+	IsPrinted    bool
+	IsSaved      bool
+	IsQuiet      bool
+	IsInverted   bool
+}
