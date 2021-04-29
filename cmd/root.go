@@ -16,6 +16,9 @@ limitations under the License.
 package cmd
 
 import (
+	"fmt"
+
+	u "github.com/branogarbo/vidcli/util"
 	"github.com/spf13/cobra"
 )
 
@@ -76,6 +79,15 @@ var rootCmd = &cobra.Command{
 		// 	fmt.Println(err)
 		// 	os.Exit(1)
 		// }
+		err = u.GenFrames(u.PlayConfig{
+			Src:          "./videos/vid.mp4",
+			Fps:          10,
+			OutputMode:   "ascii",
+			AsciiPattern: " .-+=",
+			OutputWidth:  100,
+		})
+
+		fmt.Println(err)
 	},
 }
 

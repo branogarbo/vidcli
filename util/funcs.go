@@ -1,6 +1,7 @@
 package util
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -8,14 +9,8 @@ import (
 	"os/exec"
 	"sync"
 
-	ic "github.com/branogarbo/imgcli/util"
 	yt "github.com/kkdai/youtube/v2"
 )
-
-// GetVidFromFile gets video by file path.
-func GetVidFromFile(path string) (io.ReadCloser, error) {
-	return ic.GetFileByPath(path)
-}
 
 // GetVidFromYT downloads YouTube video by video ID.
 func DLVidFromYT(videoID string, dst string) error {
@@ -55,26 +50,43 @@ func DLVidFromYT(videoID string, dst string) error {
 }
 
 //
-func GenFramesFromVid(bc BuildConfig) error {
+func GenFrames(pc PlayConfig) error {
 	var (
-		cmd = exec.Command("ffmpeg", "-i", bc.Dst, "-vf", fmt.Sprintf("fps=%v", bc.Fps), "vidcli-tmp/frame%%06d.png")
-		err = cmd.Run()
+		vidPath  = pc.Src
+		tmpFiles []string
+		err      error
 	)
 
+	if pc.IsYouTube {
+		vidPath = "./tmp-vid.mp4"
+
+		err = DLVidFromYT(pc.Src, vidPath)
+		if err != nil {
+			return err
+		}
+
+		tmpFiles = append(tmpFiles, vidPath)
+	}
+
+	cmd := exec.Command("ffmpeg", "-i", vidPath, "-vf", fmt.Sprintf("fps=%v", pc.Fps), "tmp-frames/%06d.png")
+	err = cmd.Run()
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		return errors.New("ffmpeg returned an error")
+	}
+
+	err = CleanUpTmps(tmpFiles...)
+	if err != nil {
+		return err
 	}
 
 	return nil
 }
 
 //
-// func BuildFrames(bc BuildConfig) error {
+// func
 
-// }
-
-func CleanUpFiles(files ...string) error {
+//
+func CleanUpTmps(files ...string) error {
 	var (
 		wg      sync.WaitGroup
 		err     error

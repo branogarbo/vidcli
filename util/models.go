@@ -22,21 +22,27 @@ type Frame struct {
 	Chars string
 }
 
-type BuildData struct {
-	BuildConfig
-	Frames
-}
+// type PlayData struct {
+// 	PlayConfig
+// 	Frames
+// }
 
-type BuildConfig struct {
+// DA PLAY PLAN
+
+// P. DL YT vid (opt.), have mp4 available
+
+// 1. split vid into frames as images in ./tmp-frames/
+// 2. generate ascii img from each frame image
+// 3. play converted frames in order at certain fps
+
+type PlayConfig struct {
 	Src          string
-	Dst          string
 	Fps          int
-	IsYoutube    bool
+	IsYouTube    bool
 	OutputMode   string
 	AsciiPattern string
 	OutputWidth  int
 	IsPrinted    bool
-	IsSaved      bool
 	IsQuiet      bool
 	IsInverted   bool
 }
