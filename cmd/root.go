@@ -16,10 +16,6 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
-	"os"
-
-	"github.com/branogarbo/vidcli/util"
 	"github.com/spf13/cobra"
 )
 
@@ -75,11 +71,11 @@ var rootCmd = &cobra.Command{
 
 		// u.BruteRunGame(gc)
 
-		err = util.GetFramesFromVid("./vid.mp4")
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
+		// err = util.GetFramesFromVid("./vid.mp4")
+		// if err != nil {
+		// 	fmt.Println(err)
+		// 	os.Exit(1)
+		// }
 	},
 }
 
