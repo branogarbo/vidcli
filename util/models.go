@@ -15,25 +15,20 @@ limitations under the License.
 */
 package util
 
-type Frames []Frame
+type FrameMap map[int]string
 
 type Frame struct {
 	Num   int
 	Chars string
 }
 
-// type PlayData struct {
-// 	PlayConfig
-// 	Frames
-// }
-
 // DA PLAY PLAN
 
 // P. DL YT vid (opt.), have mp4 available
 
-// 1. split vid into frames as images in ./tmp-frames/
-// 2. generate ascii img from each frame image
-// 3. play converted frames in order at certain fps
+// X 1. split vid into frames as images in ./tmp-frames/
+// X 2. generate ascii img from each frame image
+// X 3. play converted frames in order at certain fps
 
 type PlayConfig struct {
 	Src          string

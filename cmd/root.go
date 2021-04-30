@@ -17,77 +17,54 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 
 	u "github.com/branogarbo/vidcli/util"
 	"github.com/spf13/cobra"
 )
 
 var (
-	// 	frameWidth      int
-	// 	frameHeight     int
-	// 	frameCount      int
-	// 	patternX        int
-	// 	patternY        int
-	// 	patternFilePath string
-	// 	buildFilePath   string
-	// 	frameInterval   int
-	// 	livingCellChar  string
-	// 	deadCellChar    string
-	err error
+	vidSrc       string
+	vidFPS       int
+	isVidYT      bool
+	outputMode   string
+	asciiPattern string
+	outputWidth  int
+	err          error
 )
 
 var rootCmd = &cobra.Command{
-	Use: "golcli",
-	// Short:   "A basic CLI implementation of Conway's Game of Life.",
-	// Example: "golcli -c 100 -i 20 ./pattern.txt",
-	// Args:    cobra.ExactArgs(1),
+	Use:     "golcli",
+	Short:   "Plays videos in the command line as ascii lol",
+	Example: "vidcli do later",
+	Args:    cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		// patternFilePath = args[0]
+		vidSrc = args[0]
 
-		// frameWidth, err = cmd.Flags().GetInt("width")
-		// frameHeight, err = cmd.Flags().GetInt("height")
-		// frameCount, err = cmd.Flags().GetInt("count")
-		// frameInterval, err = cmd.Flags().GetInt("interval")
-		// livingCellChar, err = cmd.Flags().GetString("live-char")
-		// deadCellChar, err = cmd.Flags().GetString("dead-char")
-		// patternX, err = cmd.Flags().GetInt("pattern-x")
-		// patternY, err = cmd.Flags().GetInt("pattern-y")
+		vidFPS, err = cmd.Flags().GetInt("fps")
+		isVidYT, err = cmd.Flags().GetBool("isYT")
+		outputMode, err = cmd.Flags().GetString("mode")
+		asciiPattern, err = cmd.Flags().GetString("ascii")
+		outputWidth, err = cmd.Flags().GetInt("width")
 
-		// if err != nil {
-		// 	fmt.Println(err)
-		// 	os.Exit(1)
-		// }
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
 
-		// gc := u.GameConfig{
-		// 	Width:        frameWidth,
-		// 	Height:       frameHeight,
-		// 	FrameCount:   frameCount,
-		// 	Interval:     time.Duration(frameInterval) * time.Millisecond,
-		// 	LiveCellChar: livingCellChar,
-		// 	DeadCellChar: deadCellChar,
-		// 	InitPattern: u.Pattern{
-		// 		FilePath: patternFilePath,
-		// 		X:        patternX,
-		// 		Y:        patternY,
-		// 	},
-		// }
-
-		// u.BruteRunGame(gc)
-
-		// err = util.GetFramesFromVid("./vid.mp4")
-		// if err != nil {
-		// 	fmt.Println(err)
-		// 	os.Exit(1)
-		// }
-		err = u.GenFrames(u.PlayConfig{
-			Src:          "./videos/vid.mp4",
-			Fps:          10,
-			OutputMode:   "ascii",
-			AsciiPattern: " .-+=",
-			OutputWidth:  100,
+		_, err = u.PlayFrames(u.PlayConfig{
+			Src:          vidSrc,
+			Fps:          vidFPS,
+			IsYouTube:    isVidYT,
+			OutputMode:   outputMode,
+			AsciiPattern: asciiPattern,
+			OutputWidth:  outputWidth,
 		})
 
-		fmt.Println(err)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
 	},
 }
 
@@ -96,12 +73,10 @@ func Execute() {
 }
 
 func init() {
-	// rootCmd.Flags().IntVarP(&frameInterval, "interval", "i", 50, "The number of milliseconds between frames")
-	// rootCmd.Flags().StringVarP(&livingCellChar, "live-char", "l", "  ", "The character(s) that represent a live cell")
-	// rootCmd.Flags().StringVarP(&deadCellChar, "dead-char", "d", "██", "The character(s) that represent a dead cell")
-	// rootCmd.Flags().IntVarP(&frameWidth, "width", "W", 40, "The width of the frames")
-	// rootCmd.Flags().IntVarP(&frameHeight, "height", "H", 30, "The height of the frames")
-	// rootCmd.Flags().IntVarP(&frameCount, "count", "c", -1, "The number of frames displayed before exiting (-1 : infinite loop)")
-	// rootCmd.Flags().IntVarP(&patternX, "pattern-x", "x", 12, "The x offset of the initial pattern")
-	// rootCmd.Flags().IntVarP(&patternY, "pattern-y", "y", 8, "The y offset of the initial pattern")
+	rootCmd.Flags().IntVarP(&vidFPS, "fps", "r", 10, "do later")
+	rootCmd.Flags().BoolVarP(&isVidYT, "isYT", "y", false, "do later")
+	rootCmd.Flags().StringVarP(&outputMode, "mode", "m", "ascii", "do later")
+	rootCmd.Flags().StringVarP(&asciiPattern, "ascii", "p", " .:-=+*#%@", "do later")
+	rootCmd.Flags().IntVarP(&outputWidth, "width", "w", 75, "do later")
+
 }
