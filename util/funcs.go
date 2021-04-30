@@ -118,7 +118,7 @@ func GenFrameImages(pc PlayConfig) error {
 		return err
 	}
 
-	cmd := exec.Command("ffmpeg", "-i", "-", "-vf", fmt.Sprintf("fps=%v", pc.Fps), "./tmp-frames/out%d.png")
+	cmd := exec.Command("ffmpeg", "-i", "-", "-vf", fmt.Sprintf("fps=%v", pc.Fps), "./tmp-frames/%d.png")
 	cmd.Stdin = bytes.NewBuffer(vidBytes)
 
 	err = cmd.Run()
@@ -208,12 +208,12 @@ func PlayFrames(pc PlayConfig) (FrameMap, error) {
 
 	gt.Clear()
 
-	for _, fChars := range frames {
+	for i := 0; i < len(frames); i++ {
 		gt.MoveCursor(1, 1)
-		gt.Print(fChars)
+		gt.Print(frames[i])
 		gt.Flush()
 
-		time.Sleep(time.Duration(1/pc.Fps) * time.Second)
+		time.Sleep(time.Second / time.Duration(pc.Fps))
 	}
 
 	return frames, err
