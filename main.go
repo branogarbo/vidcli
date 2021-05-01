@@ -15,8 +15,20 @@ limitations under the License.
 */
 package main
 
-import "github.com/branogarbo/vidcli/cmd"
+import (
+	"context"
+	"os"
+	"syscall"
+
+	"github.com/branogarbo/vidcli/cmd"
+	gb "github.com/thecodeteam/goodbye"
+)
 
 func main() {
+	ctx := context.Background()
+
+	defer gb.Exit(ctx, -1)
+	gb.Notify(ctx, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
+
 	cmd.Execute()
 }

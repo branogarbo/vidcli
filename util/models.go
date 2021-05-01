@@ -15,11 +15,11 @@ limitations under the License.
 */
 package util
 
-type FrameMap map[int]string
+type FrameMap map[int][]byte
 
 type Frame struct {
 	Num   int
-	Chars string
+	Chars []byte
 }
 type PlayConfig struct {
 	Src          string

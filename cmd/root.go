@@ -17,7 +17,6 @@ package cmd
 
 import (
 	"fmt"
-	"os"
 
 	u "github.com/branogarbo/vidcli/util"
 	"github.com/spf13/cobra"
@@ -51,7 +50,7 @@ var rootCmd = &cobra.Command{
 
 		if err != nil {
 			fmt.Println(err)
-			os.Exit(1)
+			return
 		}
 
 		_, err = u.PlayFrames(u.PlayConfig{

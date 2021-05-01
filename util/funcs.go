@@ -11,7 +11,6 @@ import (
 	"os/exec"
 	"strconv"
 	"sync"
-	"syscall"
 	"time"
 
 	ic "github.com/branogarbo/imgcli/util"
@@ -24,11 +23,8 @@ func PlayFrames(pc PlayConfig) (FrameMap, error) {
 	var (
 		frames FrameMap
 		err    error
-		ctx    = context.Background()
 	)
 
-	defer gb.Exit(ctx, -1)
-	gb.Notify(ctx, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
 	gb.Register(func(ctx context.Context, s os.Signal) {
 		err = cleanUpTmps(pc.TmpDirName)
 		if err != nil {
@@ -50,7 +46,7 @@ func PlayFrames(pc PlayConfig) (FrameMap, error) {
 
 	for i := 1; i < len(frames)+1; i++ {
 		gt.MoveCursor(1, 1)
-		gt.Print(frames[i])
+		gt.Print(string(frames[i]))
 		gt.Flush()
 
 		time.Sleep(time.Second / time.Duration(pc.Fps))
@@ -185,7 +181,7 @@ func convertFrames(pc PlayConfig) (FrameMap, error) {
 			})
 			errChan <- err
 
-			frame := Frame{frameNum, frameChars}
+			frame := Frame{frameNum, []byte(frameChars)}
 
 			frameChan <- frame
 			wg.Done()
