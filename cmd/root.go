@@ -30,6 +30,7 @@ var (
 	outputMode   string
 	asciiPattern string
 	outputWidth  int
+	duration     int
 	err          error
 )
 
@@ -46,6 +47,7 @@ var rootCmd = &cobra.Command{
 		outputMode, err = cmd.Flags().GetString("mode")
 		asciiPattern, err = cmd.Flags().GetString("ascii")
 		outputWidth, err = cmd.Flags().GetInt("width")
+		duration, err = cmd.Flags().GetInt("duration")
 
 		if err != nil {
 			fmt.Println(err)
@@ -59,11 +61,11 @@ var rootCmd = &cobra.Command{
 			OutputMode:   outputMode,
 			AsciiPattern: asciiPattern,
 			OutputWidth:  outputWidth,
+			Duration:     duration,
 		})
 
 		if err != nil {
 			fmt.Println(err)
-			os.Exit(1)
 		}
 	},
 }
@@ -78,5 +80,5 @@ func init() {
 	rootCmd.Flags().StringVarP(&outputMode, "mode", "m", "ascii", "do later")
 	rootCmd.Flags().StringVarP(&asciiPattern, "ascii", "p", " .:-=+*#%@", "do later")
 	rootCmd.Flags().IntVarP(&outputWidth, "width", "w", 75, "do later")
-
+	rootCmd.Flags().IntVarP(&duration, "duration", "d", -1, "do later")
 }
