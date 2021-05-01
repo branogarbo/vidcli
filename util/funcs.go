@@ -152,6 +152,10 @@ func convertFrames(pc PlayConfig) (FrameMap, error) {
 		frames     = make(FrameMap)
 	)
 
+	if pc.OutputMode == "color" {
+		return nil, errors.New("vidcli does not support color")
+	}
+
 	frameFiles, err = os.ReadDir(pc.TmpDirName)
 	if err != nil {
 		return nil, err
