@@ -32,6 +32,11 @@ func PlayFrames(pc PlayConfig) (FrameMap, error) {
 		}
 	})
 
+	_, err = exec.LookPath("ffmpeg")
+	if err != nil {
+		return nil, errors.New("ffmpeg is not installed")
+	}
+
 	err = genFrameImages(&pc)
 	if err != nil {
 		return nil, err

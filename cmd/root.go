@@ -30,6 +30,7 @@ var (
 	asciiPattern string
 	outputWidth  int
 	duration     int
+	isInverted   bool
 	err          error
 )
 
@@ -47,6 +48,7 @@ var rootCmd = &cobra.Command{
 		asciiPattern, err = cmd.Flags().GetString("ascii")
 		outputWidth, err = cmd.Flags().GetInt("width")
 		duration, err = cmd.Flags().GetInt("duration")
+		isInverted, err = cmd.Flags().GetBool("invert")
 
 		if err != nil {
 			fmt.Println(err)
@@ -61,6 +63,7 @@ var rootCmd = &cobra.Command{
 			AsciiPattern: asciiPattern,
 			OutputWidth:  outputWidth,
 			Duration:     duration,
+			IsInverted:   isInverted,
 		})
 
 		if err != nil {
@@ -80,4 +83,5 @@ func init() {
 	rootCmd.Flags().StringVarP(&asciiPattern, "ascii", "p", " .:-=+*#%@", "do later")
 	rootCmd.Flags().IntVarP(&outputWidth, "width", "w", 75, "do later")
 	rootCmd.Flags().IntVarP(&duration, "duration", "d", -1, "do later")
+	rootCmd.Flags().BoolVarP(&isInverted, "invert", "-", false, "do later")
 }
