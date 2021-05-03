@@ -10,6 +10,6 @@ require (
 	github.com/kkdai/youtube/v2 v2.6.1
 	github.com/spf13/cobra v1.1.3
 	github.com/thecodeteam/goodbye v0.0.0-20170927022442-a83968bda2d3
-	golang.org/x/net v0.0.0-20210505214959-0714010a04ed // indirect
-	golang.org/x/sys v0.0.0-20210507161434-a76c4d0a0096 // indirect
+	golang.org/x/net v0.0.0-20210510120150-4163338589ed // indirect
+	golang.org/x/sys v0.0.0-20210511113859-b0526f3d8744 // indirect
 )

@@ -10,6 +10,7 @@ import (
 	"os"
 	"os/exec"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 
@@ -130,9 +131,9 @@ func genFrameImages(pc *PlayConfig) error {
 	fmt.Println("Extracting frames...")
 
 	if pc.Duration == -1 {
-		argList = []string{"-i", "-", "-vf", fmt.Sprintf("fps=%v", pc.Fps), fmt.Sprintf("./%v/%%d.png", tmpDirName)}
+		argList = strings.Split(fmt.Sprintf("-i - -vf fps=%v ./%v/%%d.png", pc.Fps, tmpDirName), " ")
 	} else {
-		argList = []string{"-i", "-", "-vf", fmt.Sprintf("fps=%v", pc.Fps), "-t", fmt.Sprint(pc.Duration), fmt.Sprintf("./%v/%%d.png", tmpDirName)}
+		argList = strings.Split(fmt.Sprintf("-i - -vf fps=%v -t %v ./%v/%%d.png", pc.Fps, pc.Duration, tmpDirName), " ")
 	}
 
 	cmd = exec.Command("ffmpeg", argList...)

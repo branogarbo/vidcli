@@ -83,5 +83,5 @@ func init() {
 	rootCmd.Flags().StringVarP(&asciiPattern, "ascii", "p", " .:-=+*#%@", "do later")
 	rootCmd.Flags().IntVarP(&outputWidth, "width", "w", 75, "do later")
 	rootCmd.Flags().IntVarP(&duration, "duration", "d", -1, "do later")
-	rootCmd.Flags().BoolVarP(&isInverted, "invert", "-", false, "do later")
+	rootCmd.Flags().BoolVarP(&isInverted, "invert", "i", false, "do later")
 }
