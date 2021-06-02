@@ -5,8 +5,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
-	"net/http"
 	"os"
 	"os/exec"
 	"strconv"
@@ -65,7 +65,7 @@ func getVidBytesYT(videoID string) ([]byte, error) {
 	var (
 		client   yt.Client
 		video    *yt.Video
-		resp     *http.Response
+		resp     io.ReadCloser
 		vidBytes []byte
 		err      error
 	)
@@ -75,13 +75,13 @@ func getVidBytesYT(videoID string) ([]byte, error) {
 		return nil, err
 	}
 
-	resp, err = client.GetStream(video, &video.Formats[0])
+	resp, _, err = client.GetStream(video, &video.Formats[0])
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
+	defer resp.Close()
 
-	vidBytes, err = ioutil.ReadAll(resp.Body)
+	vidBytes, err = ioutil.ReadAll(resp)
 	if err != nil {
 		return nil, err
 	}
