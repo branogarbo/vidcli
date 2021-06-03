@@ -179,6 +179,7 @@ func convertFrames(pc PlayConfig) (FrameMap, error) {
 			frameNum, err := strconv.Atoi(ffName[:len(ffName)-4])
 			if err != nil {
 				errChan <- err
+				frameChan <- Frame{}
 				return
 			}
 
@@ -192,13 +193,14 @@ func convertFrames(pc PlayConfig) (FrameMap, error) {
 			errChan <- err
 
 			frame := Frame{frameNum, []byte(frameChars)}
-
 			frameChan <- frame
+
 			wg.Done()
 		}(frameFile.Name())
 	}
 
 	wg.Wait()
+	close(frameChan)
 	close(errChan)
 
 	if err = <-errChan; err != nil {

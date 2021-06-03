@@ -18,6 +18,7 @@ package cmd
 import (
 	"fmt"
 
+	ic "github.com/branogarbo/imgcli/util"
 	u "github.com/branogarbo/vidcli/util"
 	"github.com/spf13/cobra"
 )
@@ -79,8 +80,8 @@ func Execute() {
 func init() {
 	rootCmd.Flags().IntVarP(&vidFPS, "fps", "r", 10, "do later")
 	rootCmd.Flags().BoolVarP(&isVidYT, "isYT", "y", false, "do later")
-	rootCmd.Flags().StringVarP(&outputMode, "mode", "m", "ascii", "do later")
-	rootCmd.Flags().StringVarP(&asciiPattern, "ascii", "p", " .:-=+*#%@", "do later")
+	rootCmd.Flags().StringVarP(&outputMode, "mode", "m", ic.DefaultMode, "do later")
+	rootCmd.Flags().StringVarP(&asciiPattern, "ascii", "p", ic.DefaultPattern, "do later")
 	rootCmd.Flags().IntVarP(&outputWidth, "width", "w", 75, "do later")
 	rootCmd.Flags().IntVarP(&duration, "duration", "d", -1, "do later")
 	rootCmd.Flags().BoolVarP(&isInverted, "invert", "i", false, "do later")
