@@ -16,23 +16,9 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
-
 	ic "github.com/branogarbo/imgcli/util"
 	u "github.com/branogarbo/vidcli/util"
 	"github.com/spf13/cobra"
-)
-
-var (
-	vidSrc       string
-	vidFPS       int
-	isVidYT      bool
-	outputMode   string
-	asciiPattern string
-	outputWidth  int
-	duration     int
-	isInverted   bool
-	err          error
 )
 
 var rootCmd = &cobra.Command{
@@ -40,23 +26,18 @@ var rootCmd = &cobra.Command{
 	Short:   "Plays videos in the command line as ascii lol",
 	Example: "vidcli do later",
 	Args:    cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
-		vidSrc = args[0]
+	RunE: func(cmd *cobra.Command, args []string) error {
+		vidSrc := args[0]
 
-		vidFPS, err = cmd.Flags().GetInt("fps")
-		isVidYT, err = cmd.Flags().GetBool("isYT")
-		outputMode, err = cmd.Flags().GetString("mode")
-		asciiPattern, err = cmd.Flags().GetString("ascii")
-		outputWidth, err = cmd.Flags().GetInt("width")
-		duration, err = cmd.Flags().GetInt("duration")
-		isInverted, err = cmd.Flags().GetBool("invert")
+		vidFPS, _ := cmd.Flags().GetInt("fps")
+		isVidYT, _ := cmd.Flags().GetBool("isYT")
+		outputMode, _ := cmd.Flags().GetString("mode")
+		asciiPattern, _ := cmd.Flags().GetString("ascii")
+		outputWidth, _ := cmd.Flags().GetInt("width")
+		duration, _ := cmd.Flags().GetInt("duration")
+		isInverted, _ := cmd.Flags().GetBool("invert")
 
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-
-		_, err = u.PlayFrames(u.PlayConfig{
+		_, err := u.PlayFrames(u.PlayConfig{
 			Src:          vidSrc,
 			Fps:          vidFPS,
 			IsYouTube:    isVidYT,
@@ -67,9 +48,7 @@ var rootCmd = &cobra.Command{
 			IsInverted:   isInverted,
 		})
 
-		if err != nil {
-			fmt.Println(err)
-		}
+		return err
 	},
 }
 
@@ -78,11 +57,11 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.Flags().IntVarP(&vidFPS, "fps", "r", 10, "do later")
-	rootCmd.Flags().BoolVarP(&isVidYT, "isYT", "y", false, "do later")
-	rootCmd.Flags().StringVarP(&outputMode, "mode", "m", ic.DefaultMode, "do later")
-	rootCmd.Flags().StringVarP(&asciiPattern, "ascii", "p", ic.DefaultPattern, "do later")
-	rootCmd.Flags().IntVarP(&outputWidth, "width", "w", 75, "do later")
-	rootCmd.Flags().IntVarP(&duration, "duration", "d", -1, "do later")
-	rootCmd.Flags().BoolVarP(&isInverted, "invert", "i", false, "do later")
+	rootCmd.Flags().IntP("fps", "r", 10, "do later")
+	rootCmd.Flags().BoolP("isYT", "y", false, "do later")
+	rootCmd.Flags().StringP("mode", "m", ic.DefaultMode, "do later")
+	rootCmd.Flags().StringP("ascii", "p", ic.DefaultPattern, "do later")
+	rootCmd.Flags().IntP("width", "w", 75, "do later")
+	rootCmd.Flags().IntP("duration", "d", -1, "do later")
+	rootCmd.Flags().BoolP("invert", "i", false, "do later")
 }
