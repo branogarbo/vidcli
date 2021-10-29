@@ -23,6 +23,7 @@ import (
 
 var rootCmd = &cobra.Command{
 	Use:     "golcli",
+	Version: "v1.2.0",
 	Short:   "Plays videos in the command line as ascii lol",
 	Example: "vidcli do later",
 	Args:    cobra.ExactArgs(1),
